@@ -135,5 +135,4 @@ df_clean = (
     .filter(pl.col("age") >= 50)
 )
 
-df_clean.head()
-df_clean.describe()
+df_clean.write_csv("src/digital-exclusion-and-cancer/data-clean.csv")
