@@ -1,16 +1,15 @@
 import pyshare as ps
+from pyshare import (
+    MAP_ENDS_MEET,
+    MAP_CANCER,
+    MAP_HEALTH_LITERACY_HELP,
+    MAP_COMPUTER_SKILLS,
+    MAP_GENDER,
+    MAP_ISCED_1997,
+)
 import polars as pl
 
-from utils import (
-    ENDS_MEET,
-    CANCER,
-    COMPUTER_SKILLS,
-    GENDER,
-    HEALTH_LITERACY_HELP,
-    ISCED_1997,
-    clean_share_missing,
-    recode_with,
-)
+from utils import clean_share_missing, recode_with
 
 
 df: pl.DataFrame = ps.read_share_wave(
@@ -74,25 +73,25 @@ df_clean = (
     .with_columns(
         country=pl.col("country").replace_strict(ps.MAP_ID_TO_COUNTRY),
         gender=clean_share_missing(pl.col("gender")).replace_strict(
-            GENDER, default=None
+            MAP_GENDER, default=None
         ),
         age=(2022 - clean_share_missing(pl.col("year_of_birth"))),
-        cancer=recode_with("cancer", with_map=CANCER),
+        cancer=recode_with("cancer", with_map=MAP_CANCER),
         mammogram=recode_with("mammogram"),
         colon_cancer_screening=recode_with("colon_cancer_screening"),
         internet_past_7_days=recode_with("internet_past_7_days"),
         computer_skills=clean_share_missing(pl.col("computer_skills")).replace_strict(
-            COMPUTER_SKILLS, default=None
+            MAP_COMPUTER_SKILLS, default=None
         ),
         health_literacy_help=clean_share_missing(
             pl.col("health_literacy_help")
-        ).replace_strict(HEALTH_LITERACY_HELP, default=None),
+        ).replace_strict(MAP_HEALTH_LITERACY_HELP, default=None),
         make_ends_meet=clean_share_missing(pl.col("make_ends_meet")).replace_strict(
-            ENDS_MEET, default=None
+            MAP_ENDS_MEET, default=None
         ),
         isced1997=clean_share_missing(pl.col("isced1997")),
         isced1997_label=clean_share_missing(pl.col("isced1997")).replace_strict(
-            ISCED_1997, default=None
+            MAP_ISCED_1997, default=None
         ),
         isced2011=clean_share_missing(pl.col("isced2011")),
         gp_contacts=clean_share_missing(pl.col("gp_contacts")),

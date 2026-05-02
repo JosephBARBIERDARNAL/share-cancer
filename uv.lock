@@ -550,7 +550,7 @@ wheels = [
 [[package]]
 name = "pyshare"
 version = "0.0.1"
-source = { git = "https://github.com/JosephBARBIERDARNAL/pyshare.git#cd0a9148313fa0d0147bda6c511cb64a0ba5332f" }
+source = { git = "https://github.com/JosephBARBIERDARNAL/pyshare.git#7ca7efcecde6d5dca8d1efb89163fcdabe4e058c" }
 dependencies = [
     { name = "polars" },
     { name = "polars-readstat" },
