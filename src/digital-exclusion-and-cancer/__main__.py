@@ -12,7 +12,7 @@ from utils import (
 )
 
 
-df = ps.read_share_wave(
+df: pl.DataFrame = ps.read_share_wave(
     wave=9,
     path="../data-share",
     modules=[
@@ -71,11 +71,9 @@ df_clean = (
         }
     )
     .with_columns(
-        country=pl.col("country").replace_strict(
-            ps.MAP_ID_TO_COUNTRY, return_dtype=pl.Utf8
-        ),
+        country=pl.col("country").replace_strict(ps.MAP_ID_TO_COUNTRY),
         gender=clean_share_missing(pl.col("gender")).replace_strict(
-            GENDER, default=None, return_dtype=pl.Utf8
+            GENDER, default=None
         ),
         age=(2022 - clean_share_missing(pl.col("year_of_birth"))),
         cancer=recode_yes_no("cancer"),
@@ -83,17 +81,17 @@ df_clean = (
         colon_cancer_screening=recode_yes_no("colon_cancer_screening"),
         internet_past_7_days=recode_yes_no("internet_past_7_days"),
         computer_skills=clean_share_missing(pl.col("computer_skills")).replace_strict(
-            COMPUTER_SKILLS, default=None, return_dtype=pl.Utf8
+            COMPUTER_SKILLS, default=None
         ),
         health_literacy_help=clean_share_missing(
             pl.col("health_literacy_help")
-        ).replace_strict(HEALTH_LITERACY_HELP, default=None, return_dtype=pl.Utf8),
+        ).replace_strict(HEALTH_LITERACY_HELP, default=None),
         make_ends_meet=clean_share_missing(pl.col("make_ends_meet")).replace_strict(
-            ENDS_MEET, default=None, return_dtype=pl.Utf8
+            ENDS_MEET, default=None
         ),
         isced1997=clean_share_missing(pl.col("isced1997")),
         isced1997_label=clean_share_missing(pl.col("isced1997")).replace_strict(
-            ISCED_1997, default=None, return_dtype=pl.Utf8
+            ISCED_1997, default=None
         ),
         isced2011=clean_share_missing(pl.col("isced2011")),
         gp_contacts=clean_share_missing(pl.col("gp_contacts")),
@@ -133,7 +131,7 @@ df_clean = (
         ),
         missed_mammogram=(pl.col("eligible_mammogram") & pl.col("mammogram").eq(False)),
     )
-    .filter(pl.col("age").is_between(50, 100))
+    .filter(pl.col("age") >= 50)
 )
 
 df_clean.head()
