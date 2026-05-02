@@ -21,7 +21,7 @@ jobs:
           enable-cache: true
 
       - name: Install the project
-        run: uv pip install ruff
+        run: uv venv && uv pip install ruff
 
       - name: Run Ruff format check
         run: uv run ruff format --check .

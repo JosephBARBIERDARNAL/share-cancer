@@ -19,7 +19,7 @@ jobs:
           enable-cache: true
 
       - name: Install ty
-        run: uv pip install ty
+        run: uv venv && uv pip install ty
 
       - name: Run ty check
         run: uv run ty check

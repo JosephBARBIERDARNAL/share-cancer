@@ -1,8 +1,5 @@
 import pyshare as ps
 import polars as pl
-import morethemes as mt
-
-mt.set_theme("minimal")
 
 
 df = ps.read_share_wave(
