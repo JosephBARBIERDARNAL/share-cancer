@@ -2,6 +2,8 @@ import polars as pl
 
 YES_NO = {1: True, 5: False}
 
+CANCER = {0: False, 1: True}
+
 GENDER = {1: "Male", 2: "Female"}
 
 COMPUTER_SKILLS = {
@@ -49,7 +51,7 @@ def clean_share_missing(expr: pl.Expr, *, financial: bool = False) -> pl.Expr:
     return pl.when(expr.is_in(missing_codes)).then(None).otherwise(expr)
 
 
-def recode_yes_no(col: str) -> pl.Expr:
+def recode_with(col: str, with_map: dict = YES_NO) -> pl.Expr:
     return clean_share_missing(pl.col(col)).replace_strict(
-        YES_NO, default=None, return_dtype=pl.Boolean
+        with_map, default=None, return_dtype=pl.Boolean
     )

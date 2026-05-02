@@ -3,12 +3,13 @@ import polars as pl
 
 from utils import (
     ENDS_MEET,
+    CANCER,
     COMPUTER_SKILLS,
     GENDER,
     HEALTH_LITERACY_HELP,
     ISCED_1997,
     clean_share_missing,
-    recode_yes_no,
+    recode_with,
 )
 
 
@@ -76,10 +77,10 @@ df_clean = (
             GENDER, default=None
         ),
         age=(2022 - clean_share_missing(pl.col("year_of_birth"))),
-        cancer=recode_yes_no("cancer"),
-        mammogram=recode_yes_no("mammogram"),
-        colon_cancer_screening=recode_yes_no("colon_cancer_screening"),
-        internet_past_7_days=recode_yes_no("internet_past_7_days"),
+        cancer=recode_with("cancer", with_map=CANCER),
+        mammogram=recode_with("mammogram"),
+        colon_cancer_screening=recode_with("colon_cancer_screening"),
+        internet_past_7_days=recode_with("internet_past_7_days"),
         computer_skills=clean_share_missing(pl.col("computer_skills")).replace_strict(
             COMPUTER_SKILLS, default=None
         ),
